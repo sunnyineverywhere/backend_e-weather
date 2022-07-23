@@ -7,7 +7,6 @@ import efub.team4.backend_eweather.domain.user.entity.User;
 import efub.team4.backend_eweather.domain.user.repository.UserRepository;
 import efub.team4.backend_eweather.domain.weather.dto.BearResponseDto;
 import efub.team4.backend_eweather.domain.weather.service.OpenWeatherAPI;
-import efub.team4.backend_eweather.global.config.auth.LoginUser;
 import efub.team4.backend_eweather.global.config.auth.dto.SessionUser;
 import efub.team4.backend_eweather.global.util.TimeUtil;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -67,7 +67,7 @@ public class BearService {
     }
 
     @Transactional
-    public Boolean saveBearImage(SessionUser sessionUser) throws IOException, ParseException {
+    public UUID saveBearImage(SessionUser sessionUser) throws IOException, ParseException {
         BearImageResponseDto responseDto = findBearImage();
         User user = userRepository.findByEmail(sessionUser.getEmail());
         Bear bear = Bear.builder()
@@ -78,7 +78,7 @@ public class BearService {
                 .season(responseDto.getSeasonUrl())
                 .build();
         Bear bearResponse = bearRepository.save(bear);
-        return true;
+        return bearResponse.getId();
     }
 
     private String buildSeasonUrl() {

@@ -1,8 +1,5 @@
 package efub.team4.backend_eweather.domain.sky.service;
 
-import efub.team4.backend_eweather.domain.icon.dayNight.entity.DayNight;
-import efub.team4.backend_eweather.domain.icon.dayNight.exception.DayNightNotFoundException;
-import efub.team4.backend_eweather.domain.icon.dayNight.repository.DayNightRepository;
 import efub.team4.backend_eweather.domain.sky.entity.Sky;
 import efub.team4.backend_eweather.domain.sky.exception.SkyAlreadyExistsException;
 import efub.team4.backend_eweather.domain.sky.exception.SkyNotFoundException;
@@ -15,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class SkyService {
     private final SkyRepository skyRepository;
-    private final DayNightRepository dayNightRepository;
 
     @Transactional
     public Sky save(Sky sky) {
@@ -24,15 +20,6 @@ public class SkyService {
                     throw new SkyAlreadyExistsException("Sky already exists with specified sky name");
                 });
         return skyRepository.save(sky);
-    }
-
-    @Transactional(readOnly = true)
-    public Sky findBySkyCodeAndTime(Integer skyCode, String time) {
-        DayNight dayNight = dayNightRepository.findDayNightWithQueryByTime(time)
-                .orElseThrow(() -> new DayNightNotFoundException("DayNight Not Found with time = " + time));
-
-        return skyRepository.findSkyBySkyCodeAndDayNight_Id(skyCode, dayNight.getId())
-                .orElseThrow(() -> new SkyNotFoundException("Sky Not found with skyCode and time"));
     }
 
 }

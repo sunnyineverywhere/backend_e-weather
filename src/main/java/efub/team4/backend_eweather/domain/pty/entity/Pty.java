@@ -4,7 +4,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.validator.constraints.URL;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -31,13 +30,9 @@ public class Pty {
     @Column(nullable = false)
     private Integer ptyCode;
 
-    @URL
-    private String ptyBackGroundFileUrl;
-
     @Builder
-    public Pty(String ptyName, Integer ptyCode, String ptyBackGroundFileUrl) {
+    public Pty(String ptyName, Integer ptyCode){
         this.ptyName = ptyName;
         this.ptyCode = ptyCode;
-        this.ptyBackGroundFileUrl = ptyBackGroundFileUrl;
     }
 }

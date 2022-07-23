@@ -2,7 +2,6 @@ package efub.team4.backend_eweather.domain.pty.dto;
 
 import efub.team4.backend_eweather.domain.pty.entity.Pty;
 import efub.team4.backend_eweather.domain.pty.repository.PtyRepository;
-import efub.team4.backend_eweather.domain.sky.entity.Sky;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +16,6 @@ public class PtyMapper {
         return Pty.builder()
                 .ptyName(requestDto.getPtyName())
                 .ptyCode(requestDto.getPtyCode())
-                .ptyBackGroundFileUrl(requestDto.getPtyBackGroundFileUrl())
                 .build();
     }
 
@@ -26,14 +24,6 @@ public class PtyMapper {
                 .id(entity.getId())
                 .ptyName(entity.getPtyName())
                 .ptyCode(entity.getPtyCode())
-                .build();
-    }
-
-    public PtyDto.PtyResponseDtoWithUrl getUrlFromEntity(Sky entity){
-        return PtyDto.PtyResponseDtoWithUrl.builder()
-                .id(entity.getId())
-                .ptyName(entity.getSkyName())
-                .ptyBackGroundFileUrl(entity.getSkyBackGroundFileUrl())
                 .build();
     }
 

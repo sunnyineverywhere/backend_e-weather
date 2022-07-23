@@ -1,7 +1,6 @@
 package efub.team4.backend_eweather.domain.calendar.entity;
 
 import com.sun.istack.NotNull;
-
 import efub.team4.backend_eweather.domain.user.entity.User;
 import efub.team4.backend_eweather.global.entity.BaseTimeEntity;
 import lombok.Builder;
@@ -24,7 +23,6 @@ public class Calendar extends BaseTimeEntity {
     @Column(length = 16)
     private UUID id;
 
-
     /**
      * 사용자
      */
@@ -35,25 +33,31 @@ public class Calendar extends BaseTimeEntity {
     /**
      * 캘린더 내용
      */
-
     @Lob
     @NotNull
     private String description;
 
-
+    /**
+     * 기온
+     */
     @NotNull
     private Integer temperature;
 
+    /**
+     * 최고 기온
+     */
     @NotNull
     private Integer max_temperature;
 
+    /**
+     * 최저 기온
+     */
     @NotNull
     private Integer min_temperature;
 
     /**
      * 강수 확률
      */
-
     @Column(precision = 10, scale = 4)
     private BigDecimal pty_probability;
 

@@ -15,10 +15,9 @@ public class PtyDto {
         @Size(max = 50)
         @NotEmpty
         private String ptyName;
+
         @NotEmpty
         private Integer ptyCode;
-        @NotEmpty
-        private String ptyBackGroundFileUrl;
     }
 
     @Getter
@@ -30,16 +29,5 @@ public class PtyDto {
         private UUID id;
         private String ptyName;
         private Integer ptyCode;
-    }
-
-    @Getter
-    @Setter
-    @Builder
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class PtyResponseDtoWithUrl {
-        private UUID id;
-        private String ptyName;
-        private String ptyBackGroundFileUrl;
     }
 }

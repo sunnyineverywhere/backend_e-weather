@@ -1,13 +1,20 @@
 package efub.team4.backend_eweather.domain.bear.service;
 
+import efub.team4.backend_eweather.domain.bear.Entity.Bear;
 import efub.team4.backend_eweather.domain.bear.dto.BearImageResponseDto;
+import efub.team4.backend_eweather.domain.bear.repository.BearRepository;
+import efub.team4.backend_eweather.domain.user.entity.User;
+import efub.team4.backend_eweather.domain.user.repository.UserRepository;
 import efub.team4.backend_eweather.domain.weather.dto.BearResponseDto;
 import efub.team4.backend_eweather.domain.weather.service.OpenWeatherAPI;
+import efub.team4.backend_eweather.global.config.auth.LoginUser;
+import efub.team4.backend_eweather.global.config.auth.dto.SessionUser;
 import efub.team4.backend_eweather.global.util.TimeUtil;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 
@@ -17,6 +24,12 @@ public class BearService {
 
     @Autowired
     private final OpenWeatherAPI openWeatherAPI;
+
+    @Autowired
+    private final BearRepository bearRepository;
+
+    @Autowired
+    private final UserRepository userRepository;
 
     private final TimeUtil timeUtil = new TimeUtil();
 
@@ -51,6 +64,21 @@ public class BearService {
                 .seasonUrl(seasonUrl)
                 .build();
 
+    }
+
+    @Transactional
+    public Boolean saveBearImage(SessionUser sessionUser) throws IOException, ParseException {
+        BearImageResponseDto responseDto = findBearImage();
+        User user = userRepository.findByEmail(sessionUser.getEmail());
+        Bear bear = Bear.builder()
+                .user(user)
+                .tmp(responseDto.getTmpUrl())
+                .sky(responseDto.getSkyUrl())
+                .pty(responseDto.getPtyUrl())
+                .season(responseDto.getSeasonUrl())
+                .build();
+        Bear bearResponse = bearRepository.save(bear);
+        return true;
     }
 
     private String buildSeasonUrl() {
